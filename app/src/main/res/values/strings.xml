@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">SpaceShooter</string>
+    <string name="hello_text">Hello World</string>
+    <string name="startButtonText">Start Game</string>
+</resources>
