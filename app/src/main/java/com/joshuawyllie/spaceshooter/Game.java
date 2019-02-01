@@ -35,6 +35,7 @@ public class Game extends SurfaceView implements Runnable {
         for (int i = 0; i < STAR_COUNT; i++) {
             _entities.add(new Star());
         }
+        _entities.add(new Player());
     }
 
     @Override
@@ -97,6 +98,11 @@ public class Game extends SurfaceView implements Runnable {
 
     public void onDestroy() {
         Log.d(TAG, "onDestroy");
+
+        for (Entity entity : _entities) {
+            entity.destroy();
+        }
+
         _gameThread = null; // not necessary but good practaice
         Entity._game = null;
     }
