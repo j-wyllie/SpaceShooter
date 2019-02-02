@@ -17,6 +17,8 @@ public class Game extends SurfaceView implements Runnable {
     static final int STAGE_WIDTH = 1280;
     static final int STAGE_HEIGHT = 720 ;
     static final int STAR_COUNT = 40;
+    static final int ENEMY_COUNT = 8;
+
     private Thread _gameThread;
     private volatile boolean _isRunning = false;
     private SurfaceHolder _holder;
@@ -38,6 +40,9 @@ public class Game extends SurfaceView implements Runnable {
 
         for (int i = 0; i < STAR_COUNT; i++) {
             _entities.add(new Star());
+        }
+        for (int i = 0; i < ENEMY_COUNT; i++) {
+            _entities.add(new Enemy());
         }
         _entities.add(new Player());
     }
