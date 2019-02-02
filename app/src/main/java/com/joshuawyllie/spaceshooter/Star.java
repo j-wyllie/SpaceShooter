@@ -19,12 +19,9 @@ public class Star extends Entity {
     @Override
     void update() {
         super.update();
-        if (right() < 0) {
-            setLeft(Game.STAGE_WIDTH);
-        }
-        if (bottom() < 0) {
-            setTop(Game.STAGE_HEIGHT);
-        }
+        _velX = -_game._playerSpeed;
+        _x = Utils.wrap(_x, 0, Game.STAGE_WIDTH + _width);
+        _y = Utils.wrap(_y, 0, Game.STAGE_HEIGHT + _height);
     }
 
     @Override

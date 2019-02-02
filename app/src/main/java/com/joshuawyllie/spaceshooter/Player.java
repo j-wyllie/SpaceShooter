@@ -4,11 +4,19 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.icu.text.ListFormatter;
 
 public class Player extends Entity {
     private Bitmap _bitmap = null;
     int _health = 3;
-    final static int tagetHeight = 100; //Todo: remove as is a magic number
+    private final static int tagetHeight = 100; //Todo: remove as is a magic number
+    private final static int STARTING_POS = 40;
+    private final static float ACC = 1.1f;
+    private final static float MIN_VEL = 1f;
+    private final static float MAX_VEL = 10f;
+    private final static float GRAVITY = 1.1f;
+    private final static float LIFT = -2f;
+    private final static float DRAG = 0.97f;
 
     Player() {
         _bitmap = BitmapFactory.decodeResource(
@@ -18,7 +26,8 @@ public class Player extends Entity {
         _bitmap = Utils.scaleToTargetHeight(_bitmap, tagetHeight);
         _width = _bitmap.getWidth();
         _height = _bitmap.getHeight();
-        _velX = 1;
+        _velX = 4;
+        _x = STARTING_POS;
 
     }
 
@@ -26,15 +35,19 @@ public class Player extends Entity {
 
     @Override
     void update() {
-        super.update();
-        _x = Utils.wrap(_x, -_width, Game.STAGE_WIDTH);
-        _y = Utils.wrap(_y, -_height, Game.STAGE_HEIGHT);
-        if (left() > Game.STAGE_WIDTH) {
-            setRight(0);
+        _y += _velY;
+        _velX *= DRAG;
+        _velY += GRAVITY;
+        if (_game._isBoosting) {
+            _velX *= ACC;
+            _velY += LIFT;
         }
-        if (top() > Game.STAGE_HEIGHT) {
-            setLeft(0);
-        }
+        _velX = Utils.clamp(_velX, MIN_VEL, MAX_VEL);
+        _velY = Utils.clamp(_velY, -MAX_VEL, MAX_VEL);
+       // _x = Utils.wrap(_x, -_width, Game.STAGE_WIDTH);
+        _y = Utils.clamp(_y, 0, Game.STAGE_HEIGHT - _height);
+
+        _game._playerSpeed = _velX;
     }
 
     @Override

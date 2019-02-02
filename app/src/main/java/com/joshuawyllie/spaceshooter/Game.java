@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -24,6 +25,9 @@ public class Game extends SurfaceView implements Runnable {
 
     private ArrayList<Entity> _entities = new ArrayList<>();
     Random _rng = new Random();
+
+    volatile boolean _isBoosting = false;
+    float _playerSpeed = 0f;
 
     public Game(Context context) {
         super(context);
@@ -105,5 +109,18 @@ public class Game extends SurfaceView implements Runnable {
 
         _gameThread = null; // not necessary but good practaice
         Entity._game = null;
+    }
+
+    @Override
+    public boolean onTouchEvent(final MotionEvent event) {
+        switch(event.getAction() & MotionEvent.ACTION_MASK){
+            case MotionEvent.ACTION_UP: //finger lifted
+                _isBoosting = false;
+                break;
+            case MotionEvent.ACTION_DOWN: //finger pressed
+                _isBoosting = true;
+                break;
+        }
+        return true;
     }
 }
