@@ -7,6 +7,7 @@ public class Player extends BitmapEntity {
     int _health = 3;
     private final static int tagetHeight = 100; //Todo: remove as is a magic number
     private final static int STARTING_POS = 40;
+    private final static int STARTING_HEALTH = 3;
     private final static float ACC = 1.1f;
     private final static float MIN_VEL = 1f;
     private final static float MAX_VEL = 10f;
@@ -17,9 +18,9 @@ public class Player extends BitmapEntity {
     Player() {
         super();
         loadBitmap(R.drawable.player_ship, tagetHeight);
-        _x = STARTING_POS;
-
+        respawn();
     }
+
 
 
     @Override
@@ -41,7 +42,8 @@ public class Player extends BitmapEntity {
 
     @Override
     void onCollision(Entity that) {
-        super.onCollision(that);
+        // TODO: implement recovery frames (temporary immortality after taking damage)
+        _health--;
     }
 
 

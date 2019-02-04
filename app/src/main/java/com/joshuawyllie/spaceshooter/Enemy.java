@@ -11,7 +11,16 @@ public class Enemy extends BitmapEntity {
         int resID = R.drawable.player_ship;
         loadBitmap(resID, ENEMY_HEIGHT);
         _bitmap = Utils.flipBitmap(_bitmap, false);
+        respawn();
         // ToDo: gen random int and switch over it setting random enemy accordingly
+    }
+
+    @Override
+    void respawn() {
+        _x = Game.STAGE_WIDTH + _game._rng.nextInt(ENEMY_SPAWN_OFFSET);
+        _y = _game._rng.nextInt(Game.STAGE_HEIGHT - ENEMY_HEIGHT);
+        _velX = 0f;
+        _velY = 0f;
     }
 
     @Override
@@ -21,5 +30,10 @@ public class Enemy extends BitmapEntity {
         if (right() < 0) {
             _x = Game.STAGE_WIDTH + _game._rng.nextInt(ENEMY_SPAWN_OFFSET);
         }
+    }
+
+    @Override
+    void onCollision(Entity that) {
+        _x = Game.STAGE_WIDTH + _game._rng.nextInt(ENEMY_SPAWN_OFFSET);
     }
 }

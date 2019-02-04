@@ -21,6 +21,7 @@ public abstract class Entity {
     void render(final Canvas canvas, final Paint paint) {}
     void onCollision(final Entity that) {}
     void destroy() {}
+    void respawn() {}
 
     float left() {
         return _x;
