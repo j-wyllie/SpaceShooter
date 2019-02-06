@@ -1,11 +1,8 @@
 package com.joshuawyllie.spaceshooter;
 
-import android.graphics.Bitmap;
-
 public class Player extends BitmapEntity {
-    private Bitmap _bitmap = null;
-    int _health = 3;
-    private final static int tagetHeight = 100; //Todo: remove as is a magic number
+
+    private final static int tagetHeight = 100;
     private final static int STARTING_POS = 40;
     private final static int STARTING_HEALTH = 3;
     private final static float ACC = 1.1f;
@@ -14,6 +11,8 @@ public class Player extends BitmapEntity {
     private final static float GRAVITY = 1.1f;
     private final static float LIFT = -2f;
     private final static float DRAG = 0.97f;
+
+    int _health = 3;
 
     Player() {
         super();

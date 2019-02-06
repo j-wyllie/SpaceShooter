@@ -19,12 +19,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         final Button startButton = findViewById(R.id.startButton);
         startButton.setOnClickListener(this);
 
-        final TextView highScore = (TextView) findViewById(R.id.highscore_text);
+        final TextView highScore = findViewById(R.id.highscore_text);
         SharedPreferences prefs = getSharedPreferences(Game.PREFS, Context.MODE_PRIVATE);
         int longestDistance = prefs.getInt(Game.LONGEST_DIST, 0);
-        highScore.setText("Longest Distance: " + longestDistance + "km");
-                //todo: move to resourse all magic stings etc
-
+        highScore.setText(String.format("%s%dkm", getString(R.string.longest_distance), longestDistance));
     }
 
     @Override

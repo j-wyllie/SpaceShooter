@@ -9,13 +9,17 @@ import android.media.SoundPool;
 import java.io.IOException;
 
 public class JukeBox {
-    SoundPool _soundPool = null;
+
+    private Context _context;
+    private SoundPool _soundPool = null;
 
     private final int MAX_STREAMS = 3;
     static int CRASH = 0;
 
 
     JukeBox(Context context) {
+        _context = context;
+
         AudioAttributes attr = new AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_GAME)
                 .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
@@ -31,8 +35,8 @@ public class JukeBox {
         try {
             AssetManager assetManager = context.getAssets();
             AssetFileDescriptor descriptor;
-            descriptor = assetManager.openFd("Laser_Shoot14.wav");
-            CRASH =_soundPool.load(descriptor, 1);
+            descriptor = assetManager.openFd(context.getString(R.string.colision_sound_file));
+            CRASH = _soundPool.load(descriptor, 1);
         } catch (IOException e) {
             e.printStackTrace();
         }

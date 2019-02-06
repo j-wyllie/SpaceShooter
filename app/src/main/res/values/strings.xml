@@ -2,4 +2,10 @@
     <string name="app_name">SpaceShooter</string>
     <string name="hello_text">Hello World</string>
     <string name="startButtonText">Start Game</string>
+    <string name="game_over">GAME OVER</string>
+    <string name="game_start_instructions">(press to restart)</string>
+    <string name="health">Health:</string>
+    <string name="distance_traveled">Distance Traveled:</string>
+    <string name="colision_sound_file">Laser_Shoot14.wav</string>
+    <string name="longest_distance">Longest Distance:</string>
 </resources>

@@ -106,7 +106,7 @@ public class Game extends SurfaceView implements Runnable {
 
     private void checkCollisions() {
         Entity temp = null;
-        for (int i = STAR_COUNT; i < _entities.size(); i++) {       // 0-STAR_COUNT == background entities (stars)
+        for (int i = STAR_COUNT; i < _entities.size(); i++) {
             temp = _entities.get(i);
             if (_player.isColliding(temp)) {
                 _player.onCollision(temp);
@@ -133,12 +133,11 @@ public class Game extends SurfaceView implements Runnable {
         paint.setTextSize(HUD_SIZE);
         final float centerY = STAGE_HEIGHT / 2;
         if (_gameOver) {
-            canvas.drawText("GAME OVER", centerY, HUD_SIZE, paint);
-            canvas.drawText("(press to restart)", 10, centerY + HUD_SIZE, paint);
-
+            canvas.drawText(getResources().getString(R.string.game_over), centerY, HUD_SIZE, paint);
+            canvas.drawText(getResources().getString(R.string.game_start_instructions), 10, centerY + HUD_SIZE, paint);
         } else {
-            canvas.drawText("Health: " + _player._health, 10, centerY, paint);
-            canvas.drawText("Distance Traveled: " + _distanceTraveled, 10, centerY + HUD_SIZE, paint);
+            canvas.drawText(String.format("%s%d", getResources().getString(R.string.health), _player._health), 10, centerY, paint);
+            canvas.drawText(String.format("%s%d", getResources().getString(R.string.distance_traveled), _distanceTraveled), 10, centerY + HUD_SIZE, paint);
         }
 
     }
@@ -178,7 +177,7 @@ public class Game extends SurfaceView implements Runnable {
             entity.destroy();
         }
 
-        _gameThread = null; // not necessary but good practaice
+        _gameThread = null;
         Entity._game = null;
         _jukeBox.destroy();
     }
@@ -186,13 +185,13 @@ public class Game extends SurfaceView implements Runnable {
     @Override
     public boolean onTouchEvent(final MotionEvent event) {
         switch(event.getAction() & MotionEvent.ACTION_MASK){
-            case MotionEvent.ACTION_UP: //finger lifted
+            case MotionEvent.ACTION_UP:
                 _isBoosting = false;
                 if (_gameOver) {
                     restart();
                 }
                 break;
-            case MotionEvent.ACTION_DOWN: //finger pressed
+            case MotionEvent.ACTION_DOWN:
                 _isBoosting = true;
                 break;
         }
