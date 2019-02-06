@@ -57,8 +57,9 @@ public class Game extends SurfaceView implements Runnable {
             _entities.add(new Star());
         }
         for (int i = 0; i < ENEMY_COUNT; i++) {
-            _entities.add(new Enemy());
+            _entities.add(new NormalEnemy());
         }
+        _entities.add(new BossEnemy());
         _player = new Player();
     }
 

@@ -8,11 +8,6 @@ import android.graphics.Paint;
 public class BitmapEntity extends Entity {
     protected Bitmap _bitmap = null;
 
-    BitmapEntity() {
-
-
-    }
-
     protected void loadBitmap(int resID, int targetHeight) {
         destroy();
         _bitmap = BitmapFactory.decodeResource(

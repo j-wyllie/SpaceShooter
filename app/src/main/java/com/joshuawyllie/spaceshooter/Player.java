@@ -21,7 +21,11 @@ public class Player extends BitmapEntity {
         respawn();
     }
 
-
+    @Override
+    void respawn() {
+        super.respawn();
+        _health = STARTING_HEALTH;
+    }
 
     @Override
     void update() {

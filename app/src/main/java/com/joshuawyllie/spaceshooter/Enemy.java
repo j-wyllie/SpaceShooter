@@ -1,39 +1,45 @@
 package com.joshuawyllie.spaceshooter;
 
-public class Enemy extends BitmapEntity {
-    private final static int ENEMY_HEIGHT = 80;
-    private final static int ENEMY_SPAWN_OFFSET = Game.STAGE_WIDTH;
+public abstract class Enemy extends BitmapEntity {
 
-    Enemy() {
-        super();
-        _x = Game.STAGE_WIDTH + _game._rng.nextInt(ENEMY_SPAWN_OFFSET);
-        _y = _game._rng.nextInt(Game.STAGE_HEIGHT - ENEMY_HEIGHT);
-        int resID = R.drawable.player_ship;
-        loadBitmap(resID, ENEMY_HEIGHT);
-        _bitmap = Utils.flipBitmap(_bitmap, false);
+    static int ENEMY_HEIGHT = 50;
+    final static int ENEMY_SPAWN_OFFSET = Game.STAGE_WIDTH;
+
+    Enemy(int enemyHeight) {
+        ENEMY_HEIGHT = enemyHeight;
+        _x = getRandomX();
+        _y = getRandomY();
         respawn();
-        // ToDo: gen random int and switch over it setting random enemy accordingly
     }
 
     @Override
     void respawn() {
-        _x = Game.STAGE_WIDTH + _game._rng.nextInt(ENEMY_SPAWN_OFFSET);
-        _y = _game._rng.nextInt(Game.STAGE_HEIGHT - ENEMY_HEIGHT);
+        _x = getRandomX();
+        _y = getRandomY();
         _velX = 0f;
         _velY = 0f;
     }
+
 
     @Override
     void update() {
         _velX = -_game._playerSpeed;
         _x += _velX;
         if (right() < 0) {
-            _x = Game.STAGE_WIDTH + _game._rng.nextInt(ENEMY_SPAWN_OFFSET);
+            _x = getRandomX();
         }
     }
 
     @Override
     void onCollision(Entity that) {
-        _x = Game.STAGE_WIDTH + _game._rng.nextInt(ENEMY_SPAWN_OFFSET);
+        _x = getRandomX();
+    }
+
+    private int getRandomX() {
+        return Game.STAGE_WIDTH + _game._rng.nextInt(ENEMY_SPAWN_OFFSET);
+    }
+
+    private int getRandomY() {
+        return _game._rng.nextInt(Game.STAGE_HEIGHT - ENEMY_HEIGHT);
     }
 }
