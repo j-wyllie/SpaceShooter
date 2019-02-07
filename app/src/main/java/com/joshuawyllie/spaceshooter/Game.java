@@ -131,13 +131,14 @@ public class Game extends SurfaceView implements Runnable {
         paint.setColor(Color.WHITE);
         paint.setTextAlign(Paint.Align.LEFT);
         paint.setTextSize(HUD_SIZE);
+        final float centerX = STAGE_WIDTH / 2;
         final float centerY = STAGE_HEIGHT / 2;
         if (_gameOver) {
-            canvas.drawText(getResources().getString(R.string.game_over), centerY, HUD_SIZE, paint);
-            canvas.drawText(getResources().getString(R.string.game_start_instructions), 10, centerY + HUD_SIZE, paint);
+            canvas.drawText(getResources().getString(R.string.game_over), centerX, centerY, paint);
+            canvas.drawText(getResources().getString(R.string.game_start_instructions), centerX, centerY + HUD_SIZE, paint);
         } else {
-            canvas.drawText(String.format("%s%d", getResources().getString(R.string.health), _player._health), 10, centerY, paint);
-            canvas.drawText(String.format("%s%d", getResources().getString(R.string.distance_traveled), _distanceTraveled), 10, centerY + HUD_SIZE, paint);
+            canvas.drawText(String.format("%s %d", getResources().getString(R.string.health), _player._health), HUD_SIZE, HUD_SIZE, paint);
+            canvas.drawText(String.format("%s %d", getResources().getString(R.string.distance_traveled), _distanceTraveled), HUD_SIZE, HUD_SIZE * 2, paint);
         }
 
     }
@@ -184,7 +185,7 @@ public class Game extends SurfaceView implements Runnable {
 
     @Override
     public boolean onTouchEvent(final MotionEvent event) {
-        switch(event.getAction() & MotionEvent.ACTION_MASK){
+        switch (event.getAction() & MotionEvent.ACTION_MASK){
             case MotionEvent.ACTION_UP:
                 _isBoosting = false;
                 if (_gameOver) {

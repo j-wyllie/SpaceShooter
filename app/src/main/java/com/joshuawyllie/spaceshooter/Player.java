@@ -11,8 +11,11 @@ public class Player extends BitmapEntity {
     private final static float GRAVITY = 1.1f;
     private final static float LIFT = -2f;
     private final static float DRAG = 0.97f;
+    private final static int NUM_RECOVERY_FRAMES = 5;
 
-    int _health = 3;
+    int _health = STARTING_HEALTH;
+    private boolean _recovery = false;
+    private int _framesPast = 0;
 
     Player() {
         super();
@@ -40,14 +43,23 @@ public class Player extends BitmapEntity {
         _y = Utils.clamp(_y, 0, Game.STAGE_HEIGHT - _height);
 
         _game._playerSpeed = _velX;
+
+        _framesPast++;
     }
 
 
     @Override
     void onCollision(Entity that) {
-        // TODO: implement recovery frames (temporary immortality after taking damage)
-        _health--;
-    }
+        if (_framesPast > NUM_RECOVERY_FRAMES) {
+            _recovery = false;
+            _framesPast = 0;
+        }
 
+      if (!_recovery) {
+            _recovery = true;
+            _health--;
+            _framesPast = 0;
+        }
+    }
 
 }

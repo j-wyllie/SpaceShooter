@@ -2,8 +2,9 @@ package com.joshuawyllie.spaceshooter;
 
 public abstract class Enemy extends BitmapEntity {
 
-    static int ENEMY_HEIGHT = 50;
     final static int ENEMY_SPAWN_OFFSET = Game.STAGE_WIDTH;
+    static int ENEMY_HEIGHT = 50;
+
 
     Enemy(int enemyHeight) {
         ENEMY_HEIGHT = enemyHeight;
