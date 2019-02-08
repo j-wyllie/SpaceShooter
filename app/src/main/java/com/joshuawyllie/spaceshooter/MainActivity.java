@@ -20,8 +20,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startButton.setOnClickListener(this);
 
         final TextView highScore = findViewById(R.id.highscore_text);
-        SharedPreferences prefs = getSharedPreferences(Game.PREFS, Context.MODE_PRIVATE);
-        int longestDistance = prefs.getInt(Game.LONGEST_DIST, 0);
+        SharedPreferences prefs = getSharedPreferences(Hud.PREFS, Context.MODE_PRIVATE);
+        int longestDistance = prefs.getInt(Hud.LONGEST_DIST, 0);
         highScore.setText(String.format("%s%dkm", getString(R.string.longest_distance), longestDistance));
     }
 

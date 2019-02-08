@@ -1,4 +1,4 @@
- package com.joshuawyllie.spaceshooter;
+package com.joshuawyllie.spaceshooter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -15,13 +15,10 @@ import java.util.Random;
 
 public class Game extends SurfaceView implements Runnable {
     public static final String TAG = "Game";
-    public static final String PREFS = "com.joshuawyllie.spaceshooter";
-    public static final String LONGEST_DIST = "longest_distance";
-    static final int STAGE_WIDTH = 1280;
-    static final int STAGE_HEIGHT = 720 ;
+    public static final int STAGE_WIDTH = 1280;
+    public static final int STAGE_HEIGHT = 720 ;
     static final int STAR_COUNT = 40;
     static final int ENEMY_COUNT = 8;
-    static final float HUD_SIZE = 48;
 
     private Thread _gameThread;
     private volatile boolean _isRunning = false;
@@ -33,13 +30,10 @@ public class Game extends SurfaceView implements Runnable {
     private Player _player = null;
     Random _rng = new Random();
     private JukeBox _jukeBox = null;
-    private SharedPreferences _prefs = null;
-    private SharedPreferences.Editor _editor = null;
+    private Hud _hud = null;
 
     volatile boolean _isBoosting = false;
     float _playerSpeed = 0f;
-    int _distanceTraveled = 0;
-    int _maxDistanceTraveled = 0;
     private boolean _gameOver = true;
 
     public Game(Context context) {
@@ -49,9 +43,7 @@ public class Game extends SurfaceView implements Runnable {
         _holder.setFixedSize(STAGE_WIDTH, STAGE_HEIGHT);
         _paint = new Paint();
         _jukeBox = new JukeBox(context);
-
-        _prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE);
-        _editor = _prefs.edit();
+        _hud = new Hud(context);
 
         for (int i = 0; i < STAR_COUNT; i++) {
             _entities.add(new Star());
@@ -69,8 +61,8 @@ public class Game extends SurfaceView implements Runnable {
         }
         _player.respawn();
         _gameOver = false;
-        _distanceTraveled = 0;
-        _maxDistanceTraveled = _prefs.getInt(LONGEST_DIST, 0);
+        _hud.restart();
+
     }
 
     @Override
@@ -90,17 +82,13 @@ public class Game extends SurfaceView implements Runnable {
         }
         checkCollisions();
         checkGameOver();
-        _distanceTraveled += _playerSpeed;
+        _hud.update(_playerSpeed);
     }
 
     private void checkGameOver() {
         if (_player._health <= 0) {
             _gameOver = true;
-            if (_distanceTraveled > _maxDistanceTraveled) {
-                _maxDistanceTraveled = _distanceTraveled;
-                _editor.putInt(LONGEST_DIST, _maxDistanceTraveled);
-                _editor.apply();
-            }
+            _hud.gameOver();
         }
     }
 
@@ -123,25 +111,11 @@ public class Game extends SurfaceView implements Runnable {
             entity.render(_canvas, _paint);
         }
         _player.render(_canvas, _paint);
-        renderHUD(_canvas, _paint);
+        _hud.renderHUD(_canvas, _paint, _player._health, _gameOver);
         _holder.unlockCanvasAndPost(_canvas);
     }
 
-    private void renderHUD(final Canvas canvas, final Paint paint) {
-        paint.setColor(Color.WHITE);
-        paint.setTextAlign(Paint.Align.LEFT);
-        paint.setTextSize(HUD_SIZE);
-        final float centerX = STAGE_WIDTH / 2;
-        final float centerY = STAGE_HEIGHT / 2;
-        if (_gameOver) {
-            canvas.drawText(getResources().getString(R.string.game_over), centerX, centerY, paint);
-            canvas.drawText(getResources().getString(R.string.game_start_instructions), centerX, centerY + HUD_SIZE, paint);
-        } else {
-            canvas.drawText(String.format("%s %d", getResources().getString(R.string.health), _player._health), HUD_SIZE, HUD_SIZE, paint);
-            canvas.drawText(String.format("%s %d", getResources().getString(R.string.distance_traveled), _distanceTraveled), HUD_SIZE, HUD_SIZE * 2, paint);
-        }
 
-    }
 
     private boolean acquireAndLockCanvas() {
         if (!_holder.getSurface().isValid()) {
