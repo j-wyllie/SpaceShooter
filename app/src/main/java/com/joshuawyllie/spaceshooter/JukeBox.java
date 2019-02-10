@@ -5,16 +5,25 @@ import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
+import android.support.annotation.IntegerRes;
+import android.util.Log;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 public class JukeBox {
 
+    public static final String TAG = "JukeBox";
+    private static final float DEFAULT_SFX_VOLUME = 1f;
     private Context _context;
     private SoundPool _soundPool = null;
 
     private final int MAX_STREAMS = 3;
     static int CRASH = 0;
+    static int BOOST = 0;
+    static int DEATH = 0;
+    static int START = 0;
+    private HashMap<GameEvent, Integer> _sfxMap;
 
 
     JukeBox(Context context) {
@@ -28,34 +37,47 @@ public class JukeBox {
                 .setAudioAttributes(attr)
                 .setMaxStreams(MAX_STREAMS)
                 .build();
-        loadSounds(context);
+        loadSoundEffects();
     }
 
-    private void loadSounds(final Context context) {
-        try {
-            AssetManager assetManager = context.getAssets();
-            AssetFileDescriptor descriptor;
-            descriptor = assetManager.openFd(context.getString(R.string.colision_sound_file));
-            CRASH = _soundPool.load(descriptor, 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void loadSoundEffects() {
+        _sfxMap = new HashMap();
+        loadEventSound(GameEvent.Collision, _context.getString(R.string.COLLISON_SOUND)); //TODO: move to config file
+        loadEventSound(GameEvent.Boost, "boost.wav");
+        loadEventSound(GameEvent.Death, "death.wav");
+        loadEventSound(GameEvent.LevelStart, "start.wav");
     }
 
-    void play(final int soundID) {
-        final float leftVolume = 1f;
-        final float rightVolume = 1f;
-        final int priority = 0;
-        final int loop = 0;
+    public void play(final GameEvent event) {
+        final float leftVolume = DEFAULT_SFX_VOLUME;
+        final float rightVolume = DEFAULT_SFX_VOLUME;
+        final int priority = 1;
+        final int loop = 0; //-1 loop forever, 0 play once
         final float rate = 1.0f;
-
-        if (soundID > 0) {
+        final Integer soundID = _sfxMap.get(event);
+        if (soundID != null) {
             _soundPool.play(soundID, leftVolume, rightVolume, priority, loop, rate);
         }
     }
 
     void destroy() {
-        _soundPool.release();
-        _soundPool = null;
+        if (_soundPool != null) {
+            _soundPool.release();
+            _soundPool = null;
+        }
     }
+
+    public void playSoundForGameEvent(GameEvent event) {
+    }
+
+    private void loadEventSound(final GameEvent event, final String fileName) {
+        try {
+            final AssetFileDescriptor afd = _context.getAssets().openFd(fileName);
+            final int soundId = _soundPool.load(afd, 1);
+            _sfxMap.put(event, soundId);
+        } catch (IOException e) {
+            Log.e(TAG, "loadEventSound: error loading sound " + e.toString());
+        }
+    }
+
 }

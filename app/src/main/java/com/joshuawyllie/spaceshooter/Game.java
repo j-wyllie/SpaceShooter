@@ -1,7 +1,6 @@
 package com.joshuawyllie.spaceshooter;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -99,7 +98,7 @@ public class Game extends SurfaceView implements Runnable {
             if (_player.isColliding(temp)) {
                 _player.onCollision(temp);
                 temp.onCollision(_player);
-                _jukeBox.play(JukeBox.CRASH);
+                _jukeBox.play(GameEvent.Collision);
             }
         }
     }
@@ -145,16 +144,8 @@ public class Game extends SurfaceView implements Runnable {
 
     }
 
-    public void onDestroy() {
-        Log.d(TAG, "onDestroy");
-
-        for (Entity entity : _entities) {
-            entity.destroy();
-        }
-
-        _gameThread = null;
-        Entity._game = null;
-        _jukeBox.destroy();
+    public void onGameEvent(final GameEvent event, final Entity e /*can be null!*/) {
+        _jukeBox.playSoundForGameEvent(event);
     }
 
     @Override
@@ -171,5 +162,17 @@ public class Game extends SurfaceView implements Runnable {
                 break;
         }
         return true;
+    }
+
+    public void onDestroy() {
+        Log.d(TAG, "onDestroy");
+
+        for (Entity entity : _entities) {
+            entity.destroy();
+        }
+
+        _gameThread = null;
+        Entity._game = null;
+        _jukeBox.destroy();
     }
 }

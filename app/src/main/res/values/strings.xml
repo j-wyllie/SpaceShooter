@@ -6,6 +6,6 @@
     <string name="game_start_instructions">(press to restart)</string>
     <string name="health">Health:</string>
     <string name="distance_traveled">Distance Traveled:</string>
-    <string name="colision_sound_file">Laser_Shoot14.wav</string>
     <string name="longest_distance">Longest Distance:</string>
+    <string name="COLLISON_SOUND">Laser_Shoot14.wav</string>
 </resources>
