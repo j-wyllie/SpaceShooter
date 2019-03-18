@@ -11,7 +11,7 @@ public class Star extends Entity {
     private final static int MIN_RADIUS = 2;
     private final static float INIT_VEL = 4f;
 
-    private int _radius ;
+    private int _radius;
     private float _distanceMultiplier;
     private int _colour;
 
@@ -27,11 +27,11 @@ public class Star extends Entity {
     }
 
     private float getDistMult(int _radius) {
-        return (float)_radius / MAX_RADIUS;
+        return (float) _radius / MAX_RADIUS;
     }
 
     private int getInitColour() {
-        return Color.argb(255,_game._rng.nextInt(256), _game._rng.nextInt(128),_game._rng.nextInt(256));
+        return Color.argb(255, _game._rng.nextInt(256), _game._rng.nextInt(128), _game._rng.nextInt(256));
     }
 
 

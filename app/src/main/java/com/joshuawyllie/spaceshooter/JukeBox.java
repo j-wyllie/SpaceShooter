@@ -2,10 +2,8 @@ package com.joshuawyllie.spaceshooter;
 
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
-import android.content.res.AssetManager;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
-import android.support.annotation.IntegerRes;
 import android.util.Log;
 
 import java.io.IOException;
@@ -42,10 +40,10 @@ public class JukeBox {
 
     private void loadSoundEffects() {
         _sfxMap = new HashMap();
-        loadEventSound(GameEvent.Collision, _context.getString(R.string.COLLISON_SOUND)); //TODO: move to config file
-        loadEventSound(GameEvent.Boost, "boost.wav");
-        loadEventSound(GameEvent.Death, "death.wav");
-        loadEventSound(GameEvent.LevelStart, "start.wav");
+        loadEventSound(GameEvent.COLLISION, _context.getString(R.string.COLLISON_SOUND)); //TODO: move to config file
+        loadEventSound(GameEvent.BOOST, "boost.wav");
+        loadEventSound(GameEvent.DEATH, "death.wav");
+        loadEventSound(GameEvent.LEVEL_START, "start.wav");
     }
 
     public void play(final GameEvent event) {

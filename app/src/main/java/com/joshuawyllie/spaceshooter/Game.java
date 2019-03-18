@@ -15,9 +15,9 @@ import java.util.Random;
 public class Game extends SurfaceView implements Runnable {
     public static final String TAG = "Game";
     public static final int STAGE_WIDTH = 1280;
-    public static final int STAGE_HEIGHT = 720 ;
+    public static final int STAGE_HEIGHT = 720;
     static final int STAR_COUNT = 40;
-    static final int ENEMY_COUNT = 8;
+    static final int ENEMY_COUNT = 6;
 
     private Thread _gameThread;
     private volatile boolean _isRunning = false;
@@ -61,7 +61,7 @@ public class Game extends SurfaceView implements Runnable {
         _player.respawn();
         _gameOver = false;
         _hud.restart();
-
+        _jukeBox.play(GameEvent.LEVEL_START);
     }
 
     @Override
@@ -73,8 +73,9 @@ public class Game extends SurfaceView implements Runnable {
     }
 
     private void update() {
-        if (_gameOver) { return; }
-
+        if (_gameOver) {
+            return;
+        }
         _player.update();
         for (Entity entity : _entities) {
             entity.update();
@@ -88,6 +89,7 @@ public class Game extends SurfaceView implements Runnable {
         if (_player._health <= 0) {
             _gameOver = true;
             _hud.gameOver();
+            _jukeBox.play(GameEvent.DEATH);
         }
     }
 
@@ -98,7 +100,7 @@ public class Game extends SurfaceView implements Runnable {
             if (_player.isColliding(temp)) {
                 _player.onCollision(temp);
                 temp.onCollision(_player);
-                _jukeBox.play(GameEvent.Collision);
+                _jukeBox.play(GameEvent.COLLISION);
             }
         }
     }
@@ -113,7 +115,6 @@ public class Game extends SurfaceView implements Runnable {
         _hud.renderHUD(_canvas, _paint, _player._health, _gameOver);
         _holder.unlockCanvasAndPost(_canvas);
     }
-
 
 
     private boolean acquireAndLockCanvas() {
@@ -150,7 +151,7 @@ public class Game extends SurfaceView implements Runnable {
 
     @Override
     public boolean onTouchEvent(final MotionEvent event) {
-        switch (event.getAction() & MotionEvent.ACTION_MASK){
+        switch (event.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_UP:
                 _isBoosting = false;
                 if (_gameOver) {
@@ -159,6 +160,7 @@ public class Game extends SurfaceView implements Runnable {
                 break;
             case MotionEvent.ACTION_DOWN:
                 _isBoosting = true;
+                _jukeBox.play(GameEvent.BOOST);
                 break;
         }
         return true;
@@ -174,5 +176,9 @@ public class Game extends SurfaceView implements Runnable {
         _gameThread = null;
         Entity._game = null;
         _jukeBox.destroy();
+    }
+
+    public boolean getIsBoosting() {
+        return this._isBoosting;
     }
 }

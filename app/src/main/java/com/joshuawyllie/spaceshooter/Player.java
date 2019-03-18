@@ -1,5 +1,8 @@
 package com.joshuawyllie.spaceshooter;
 
+import android.graphics.Canvas;
+import android.graphics.Paint;
+
 public class Player extends BitmapEntity {
 
     private final static int tagetHeight = 100;
@@ -19,7 +22,7 @@ public class Player extends BitmapEntity {
 
     Player() {
         super();
-        loadBitmap(R.drawable.player_ship, tagetHeight);
+        loadBitmap(R.drawable.player_ship, R.drawable.player_ship_boost, tagetHeight);
         respawn();
     }
 
@@ -47,6 +50,14 @@ public class Player extends BitmapEntity {
         _framesPast++;
     }
 
+    @Override
+    void render(Canvas canvas, Paint paint) {
+        if (_game.getIsBoosting()) {
+            canvas.drawBitmap(_bitmap_alt, _x, _y, paint);
+        } else {
+            canvas.drawBitmap(_bitmap, _x, _y, paint);
+        }
+    }
 
     @Override
     void onCollision(Entity that) {
@@ -55,7 +66,7 @@ public class Player extends BitmapEntity {
             _framesPast = 0;
         }
 
-      if (!_recovery) {
+        if (!_recovery) {
             _recovery = true;
             _health--;
             _framesPast = 0;

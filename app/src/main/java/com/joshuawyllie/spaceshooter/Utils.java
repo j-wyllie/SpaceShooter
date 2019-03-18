@@ -19,9 +19,9 @@ public abstract class Utils {
         final int cx = src.getWidth() / 2;
         final int cy = src.getHeight() / 2;
         if (horizontal) {
-            _matrix.postScale(1, -1,  cx, cy);
+            _matrix.postScale(1, -1, cx, cy);
         } else {
-            _matrix.postScale(-1, 1,  cx, cy);
+            _matrix.postScale(-1, 1, cx, cy);
         }
         return Bitmap.createBitmap(src, 0, 0, src.getWidth(), src.getHeight(), _matrix, true);
 

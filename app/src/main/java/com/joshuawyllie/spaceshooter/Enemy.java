@@ -28,6 +28,7 @@ public abstract class Enemy extends BitmapEntity {
         _x += _velX;
         if (right() < 0) {
             _x = getRandomX();
+            _y = getRandomY();
         }
     }
 

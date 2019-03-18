@@ -18,26 +18,39 @@ public abstract class Entity {
         _x += _velX;
         _y += _velY;
     }
-    void render(final Canvas canvas, final Paint paint) {}
-    void onCollision(final Entity that) {}
-    void destroy() {}
-    void respawn() {}
+
+    void render(final Canvas canvas, final Paint paint) {
+    }
+
+    void onCollision(final Entity that) {
+    }
+
+    void destroy() {
+    }
+
+    void respawn() {
+    }
 
     float left() {
         return _x;
     }
+
     float right() {
         return _x + _width;
     }
+
     float top() {
         return _y;
     }
+
     float bottom() {
         return _y + _height;
     }
+
     float centerX() {
         return _x + (_width * 0.5f);
     }
+
     float centerY() {
         return _y + (_height * 0.5f);
     }
@@ -45,15 +58,19 @@ public abstract class Entity {
     void setLeft(final float leftEdgePosition) {
         _x = leftEdgePosition;
     }
+
     void setRight(final float rightEdgePosition) {
         _x = rightEdgePosition - _width;
     }
+
     void setTop(final float topEdgePosition) {
         _y = topEdgePosition;
     }
+
     void setBottom(final float bottomEdgePosition) {
         _y = bottomEdgePosition - _height;
     }
+
     void setCenter(final float x, final float y) {
         _x = x - (_width * 0.5f);
         _y = y - (_height * 0.5f);

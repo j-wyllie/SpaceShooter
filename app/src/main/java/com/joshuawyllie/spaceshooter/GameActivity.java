@@ -1,7 +1,7 @@
 package com.joshuawyllie.spaceshooter;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 public class GameActivity extends AppCompatActivity {
     Game _game;
@@ -28,7 +28,7 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         _game.onDestroy();
+        super.onDestroy();
     }
 }

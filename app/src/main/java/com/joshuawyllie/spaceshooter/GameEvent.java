@@ -1,11 +1,8 @@
 package com.joshuawyllie.spaceshooter;
 
 public enum GameEvent {
-    LevelStart,
-    Jump,
-    Collision,
-    CoinPickup,
-    LevelGoal,
-    Death,
-    Boost
+    LEVEL_START,
+    COLLISION,
+    DEATH,
+    BOOST
 }

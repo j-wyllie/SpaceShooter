@@ -12,16 +12,16 @@ public class NormalEnemy extends Enemy {
     }
 
     private void loadRandomEnemyBitmap() {
-        int randomEnemy = _game._rng.nextInt(NUM_ENEMIES + 1);
+        int randomEnemy = _game._rng.nextInt(NUM_ENEMIES);
         int resID = R.drawable.player_ship;
         switch (randomEnemy) {
-            case(0):
+            case (0):
                 resID = R.drawable.enemy_0;
                 break;
-            case(1):
+            case (1):
                 resID = R.drawable.enemy_1;
                 break;
-            case(2):
+            case (2):
                 resID = R.drawable.enemy_2;
                 break;
         }
